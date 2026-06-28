@@ -1,3 +1,4 @@
 #!/bin/bash
 php artisan migrate --force
-apache2-foreground
+php artisan db:seed --force
+apache2-foregrounds

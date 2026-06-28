@@ -2,7 +2,8 @@ FROM php:8.3-apache
 
 RUN apt-get update && apt-get install -y \
     libzip-dev zip unzip \
-    && docker-php-ext-install pdo pdo_mysql zip
+    libpq-dev \
+    && docker-php-ext-install pdo pdo_mysql pdo_pgsql zip
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
@@ -20,7 +21,6 @@ RUN sed -i 's|/var/www/html|${APACHE_DOCUMENT_ROOT}|g' /etc/apache2/sites-availa
 
 RUN a2enmod rewrite
 
-# Run migrations on startup
 COPY start.sh /start.sh
 RUN chmod +x /start.sh
 
